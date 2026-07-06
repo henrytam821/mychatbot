@@ -124,3 +124,7 @@ async def chat(req: ChatRequest):
         raise HTTPException(status_code=502, detail="Unexpected response format from OpenRouter")
 
     return ChatResponse(reply=reply)
+if __name__ == "__main__":
+    import uvicorn
+    # 💡 關鍵：在容器內 Host 必須是 0.0.0.0，才能讓外部（Portainer/K8s）存取
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
