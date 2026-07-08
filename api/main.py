@@ -11,7 +11,7 @@ from pydantic import BaseModel
 load_dotenv(Path(__file__).parent / ".env")
 
 app = FastAPI()
-templates = Jinja2Templates(directory=(directory="api/templates"))
+templates = Jinja2Templates(directory="api/templates")
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
