@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir jinja2
 # Copy main.py, templates, and remaining project files
-COPY . .
+COPY api/ .
 
 # Start your chatbot application
 CMD ["python", "main.py"]

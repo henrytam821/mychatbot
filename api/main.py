@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-
+# Get the directory where main.py actually lives
+BASE_DIR = Path(__file__).resolve().parent
 import httpx
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
@@ -8,10 +9,11 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
-load_dotenv(Path(__file__).parent / ".env")
+# 1. Get the directory where main.py actually lives
+BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI()
-templates = Jinja2Templates(directory="api/templates")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
@@ -124,7 +126,7 @@ async def chat(req: ChatRequest):
         raise HTTPException(status_code=502, detail="Unexpected response format from OpenRouter")
 
     return ChatResponse(reply=reply)
-#if __name__ == "__main__":
- #   import uvicorn
+if __name__ == "__main__":
+    import uvicorn
     # 💡 關鍵：在容器內 Host 必須是 0.0.0.0，才能讓外部（Portainer/K8s）存取
-  #  uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
